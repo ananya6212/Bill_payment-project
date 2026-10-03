@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+
+{% block title %}
+Invoice #{{ invoice.invoice_id }} - QuickBill
+{% endblock %}
+
+{% block content %}
+
+<div class="invoice-page">
+
+    <div class="invoice-toolbar">
+
+        <a
+            href="/invoices"
+            class="btn btn-secondary"
+        >
+            ← Back
+        </a>
+
+        <div>
+
+            <button
+                type="button"
+                class="btn btn-primary"
+                onclick="window.print()"
+            >
+                Print
+            </button>
+
+            <a
+                href="/invoices/{{ invoice.invoice_id }}/pdf"
+                class="btn btn-success"
+            >
+                Download PDF
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="printable-invoice">
+
+        <div class="invoice-header">
+
+            <div>
+
+                <h1>
+                    {{ store_name }}
+                </h1>
+
+                {% if store_address %}
+                <p>{{ store_address }}</p>
+                {% endif %}
+
+                {% if store_phone %}
+                <p>Phone: {{ store_phone }}</p>
+                {% endif %}
+
+            </div>
+
+            <div class="invoice-title">
+
+                <h2>INVOICE</h2>
+
+                <p>
+                    #{{ "%04d"|format(invoice.invoice_id) }}
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="invoice-meta">
+
+            <div>
+                <strong>Customer</strong>
+                <p>{{ invoice.customer_name }}</p>
+            </div>
+
+            <div>
+                <strong>Date</strong>
+                <p>{{ invoice.date }}</p>
+            </div>
+
+            <div>
+                <strong>Payment Mode</strong>
+                <p>{{ invoice.payment_mode }}</p>
+            </div>
+
+        </div>
+
+        <table class="invoice-table">
+
+            <thead>
+
+                <tr>
+                    <th>#</th>
+                    <th>Item</th>
+                    <th>Unit Price</th>
+                    <th>Qty</th>
+                    <th>Amount</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for item in items %}
+
+                <tr>
+
+                    <td>{{ loop.index }}</td>
+
+                    <td>
+                        {{ item.item_name }}
+                    </td>
+
+                    <td>
+                        ₹{{ "%.2f"|format(item.price) }}
+                    </td>
+
+                    <td>
+                        {{ item.quantity }}
+                    </td>
+
+                    <td>
+                        ₹{{ "%.2f"|format(item.amount) }}
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        <div class="invoice-summary">
+
+            <div>
+                <span>Subtotal</span>
+                <strong>
+                    ₹{{ "%.2f"|format(invoice.subtotal) }}
+                </strong>
+            </div>
+
+            <div>
+                <span>Discount</span>
+                <strong class="discount">
+                    - ₹{{ "%.2f"|format(invoice.discount) }}
+                </strong>
+            </div>
+
+            <div>
+                <span>GST / Tax</span>
+                <strong>
+                    + ₹{{ "%.2f"|format(invoice.tax) }}
+                </strong>
+            </div>
+
+            <div class="invoice-grand-total">
+
+                <span>Grand Total</span>
+
+                <strong>
+                    ₹{{ "%.2f"|format(invoice.total_amount) }}
+                </strong>
+
+            </div>
+
+        </div>
+
+        <div class="invoice-footer">
+
+            <p>
+                Thank you for shopping with {{ store_name }}!
+            </p>
+
+            <small>
+                This is a computer-generated invoice.
+            </small>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% if auto_print %}
+
+<script>
+    window.addEventListener(
+        "load",
+        function () {
+            window.print();
+        }
+    );
+</script>
+
+{% endif %}
+
+{% endblock %}

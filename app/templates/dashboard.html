@@ -1,0 +1,257 @@
+{% extends "base.html" %}
+
+{% block title %}
+Dashboard - QuickBill
+{% endblock %}
+
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+
+        <h1>
+            Dashboard
+        </h1>
+
+        <p>
+            Welcome to {{ store_name }}
+        </p>
+
+    </div>
+
+    <a
+        href="/invoices/new"
+        class="btn btn-primary"
+    >
+        + Create Invoice
+    </a>
+
+</div>
+
+
+<div class="stats-grid">
+
+    <div class="stat-card">
+
+        <span>
+            Total Products
+        </span>
+
+        <strong>
+            {{ total_products }}
+        </strong>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <span>
+            Total Stock
+        </span>
+
+        <strong>
+            {{ total_stock }}
+        </strong>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <span>
+            Total Invoices
+        </span>
+
+        <strong>
+            {{ total_invoices }}
+        </strong>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <span>
+            Total Revenue
+        </span>
+
+        <strong>
+            ₹{{ "%.2f"|format(total_revenue) }}
+        </strong>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <span>
+            Today's Revenue
+        </span>
+
+        <strong>
+            ₹{{ "%.2f"|format(today_revenue) }}
+        </strong>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <span>
+            Today's Bills
+        </span>
+
+        <strong>
+            {{ today_invoices }}
+        </strong>
+
+    </div>
+
+</div>
+
+
+<div class="dashboard-grid">
+
+
+    <div class="card">
+
+        <div class="card-heading">
+
+            <h2>
+                Recent Invoices
+            </h2>
+
+            <a href="/invoices">
+                View All
+            </a>
+
+        </div>
+
+
+        {% if recent_invoices %}
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Invoice
+                        </th>
+
+                        <th>
+                            Customer
+                        </th>
+
+                        <th>
+                            Total
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for invoice in recent_invoices %}
+
+                    <tr>
+
+                        <td>
+
+                            <a
+                                href="/invoices/{{ invoice.invoice_id }}"
+                            >
+
+                                #{{ "%04d"|format(invoice.invoice_id) }}
+
+                            </a>
+
+                        </td>
+
+                        <td>
+                            {{ invoice.customer_name }}
+                        </td>
+
+                        <td>
+                            ₹{{ "%.2f"|format(invoice.total_amount) }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+        <p class="empty-text">
+            No invoices yet.
+        </p>
+
+        {% endif %}
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-heading">
+
+            <h2>
+                Low Stock
+            </h2>
+
+            <a href="/products">
+                Inventory
+            </a>
+
+        </div>
+
+
+        {% if low_stock %}
+
+        <div class="stock-list">
+
+            {% for item in low_stock %}
+
+            <div class="stock-item">
+
+                <span>
+                    {{ item.name }}
+                </span>
+
+                <strong class="low-stock">
+                    {{ item.stock }}
+                </strong>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        {% else %}
+
+        <p class="empty-text">
+            No low-stock products.
+        </p>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

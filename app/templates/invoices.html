@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block title %}
+Invoice History - QuickBill
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+        <h1>Invoice History</h1>
+
+        <p>
+            View all generated invoices
+        </p>
+    </div>
+
+    <a
+        href="/invoices/new"
+        class="btn btn-primary"
+    >
+        + New Invoice
+    </a>
+
+</div>
+
+<div class="card">
+
+    {% if invoices %}
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Invoice</th>
+                    <th>Customer</th>
+                    <th>Date</th>
+                    <th>Payment</th>
+                    <th>Total</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for invoice in invoices %}
+
+                <tr>
+
+                    <td>
+                        <strong>
+                            #{{ "%04d"|format(invoice.invoice_id) }}
+                        </strong>
+                    </td>
+
+                    <td>
+                        {{ invoice.customer_name }}
+                    </td>
+
+                    <td>
+                        {{ invoice.date }}
+                    </td>
+
+                    <td>
+                        <span class="payment-badge">
+                            {{ invoice.payment_mode }}
+                        </span>
+                    </td>
+
+                    <td>
+                        <strong>
+                            ₹{{ "%.2f"|format(invoice.total_amount) }}
+                        </strong>
+                    </td>
+
+                    <td>
+
+                        <a
+                            href="/invoices/{{ invoice.invoice_id }}"
+                            class="action-link"
+                        >
+                            View
+                        </a>
+
+                        <a
+                            href="/invoices/{{ invoice.invoice_id }}/pdf"
+                            class="action-link"
+                        >
+                            PDF
+                        </a>
+                        <form
+        method="post"
+        action="/invoices/{{ invoice.invoice_id }}/delete"
+        style="display:inline;"
+        onsubmit="return confirm('Are you sure you want to delete this invoice?');"
+    >
+        <button
+            type="submit"
+            class="action-link delete-link"
+        >
+            Delete
+        </button>
+    </form>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    {% else %}
+
+<div class="empty-state">
+
+    <h2>No invoices yet</h2>
+
+    <p>
+        Create your first invoice.
+    </p>
+
+    <a
+        href="/invoices/new"
+        class="btn btn-primary"
+    >
+        Create Invoice
+    </a>
+
+</div>
+
+{% endif %}
+
+</div>
+
+{% endblock %}

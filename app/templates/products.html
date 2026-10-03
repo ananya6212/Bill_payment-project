@@ -1,0 +1,251 @@
+{% extends "base.html" %}
+
+{% block title %}
+Inventory - QuickBill
+{% endblock %}
+
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+
+        <h1>
+            Inventory
+        </h1>
+
+        <p>
+            Manage products and stock
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="inventory-layout">
+
+
+    <div class="card">
+
+        <h2>
+            Add / Update Product
+        </h2>
+
+
+        <form
+            method="POST"
+            action="/products/save"
+        >
+
+            <div class="form-group">
+
+                <label>
+                    Product Name
+                </label>
+
+                <input
+                    type="text"
+                    name="name"
+                    required
+                    placeholder="Product name"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Price
+                </label>
+
+                <input
+                    type="number"
+                    name="price"
+                    min="0"
+                    step="0.01"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Stock
+                </label>
+
+                <input
+                    type="number"
+                    name="stock"
+                    min="0"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="btn btn-primary"
+            >
+                Save Product
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-heading">
+
+            <h2>
+                Products
+            </h2>
+
+            <form
+                method="GET"
+                action="/products"
+                class="search-form"
+            >
+
+                <input
+                    type="text"
+                    name="q"
+                    value="{{ q }}"
+                    placeholder="Search..."
+                >
+
+                <button
+                    type="submit"
+                    class="btn btn-secondary"
+                >
+                    Search
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Product
+                        </th>
+
+                        <th>
+                            Price
+                        </th>
+
+                        <th>
+                            Stock
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Action
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for item in items %}
+
+                    <tr>
+
+                        <td>
+                            {{ item.name }}
+                        </td>
+
+                        <td>
+                            ₹{{ "%.2f"|format(item.price) }}
+                        </td>
+
+                        <td>
+                            {{ item.stock }}
+                        </td>
+
+                        <td>
+
+                            {% if item.stock <= 5 %}
+
+                            <span class="status danger">
+                                Low Stock
+                            </span>
+
+                            {% else %}
+
+                            <span class="status success">
+                                Available
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            <form
+                                method="POST"
+                                action="/products/delete/{{ item.name }}"
+                                onsubmit="return confirm('Delete this product?')"
+                            >
+
+                                <button
+                                    type="submit"
+                                    class="btn-delete"
+                                >
+                                    Delete
+                                </button>
+
+                            </form>
+
+                        </td>
+
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+
+                        <td
+                            colspan="5"
+                            class="empty-row"
+                        >
+                            No products found.
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
