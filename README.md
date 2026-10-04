@@ -1,7 +1,6 @@
-@"
-# QuickBill
+# BillBook
 
-QuickBill is a web-based billing and inventory management application.
+A fast, simple web-based billing and inventory management app.
 
 ## Features
 
