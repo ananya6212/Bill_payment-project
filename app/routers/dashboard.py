@@ -150,7 +150,7 @@ def dashboard(
         "store_name": get_setting(
             db,
             "store_name",
-            "QuickBill Store"
+            "BillBook Store"
         ),
         "total_products": total_products,
         "total_stock": total_stock,
@@ -180,7 +180,7 @@ def settings_page(
         "store_name": get_setting(
             db,
             "store_name",
-            "QuickBill Store"
+            "BillBook Store"
         ),
         "store_phone": get_setting(
             db,
@@ -211,7 +211,7 @@ async def save_settings(
     values = {
         "store_name":
             store_name.strip()
-            or "QuickBill Store",
+            or "BillBook Store",
 
         "store_phone":
             store_phone.strip(),

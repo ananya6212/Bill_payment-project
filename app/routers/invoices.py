@@ -183,7 +183,7 @@ def new_invoice_page(
         "store_name": get_setting(
             db,
             "store_name",
-            "QuickBill Store"
+            "BillBook Store"
         ),
     }
 )
@@ -454,7 +454,7 @@ def invoice_detail(
         "store_name": get_setting(
             db,
             "store_name",
-            "QuickBill Store"
+            "BillBook Store"
         ),
         "store_phone": get_setting(
             db,
@@ -516,7 +516,7 @@ def print_invoice(
         "store_name": get_setting(
             db,
             "store_name",
-            "QuickBill Store"
+            "BillBook Store"
         ),
         "store_phone": get_setting(
             db,
@@ -572,7 +572,7 @@ def invoice_pdf(
     store_name = get_setting(
         db,
         "store_name",
-        "QuickBill Store"
+        "BillBook Store"
     )
 
     store_phone = get_setting(

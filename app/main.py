@@ -54,7 +54,7 @@ with SessionLocal() as db:
         ])
 
     default_settings = {
-        "store_name": "QuickBill Store",
+        "store_name": "BillBook Store",
         "store_phone": "+91 98765 43210",
         "store_address": "Main Market, City Center",
     }
@@ -79,7 +79,7 @@ with SessionLocal() as db:
 
 
 app = FastAPI(
-    title="QuickBill",
+    title="BillBook",
     description="Billing and Inventory Management System",
     version="1.0.0"
 )
